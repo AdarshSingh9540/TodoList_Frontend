@@ -18,8 +18,8 @@ export function CreateTodo(props) {
             setDescription(e.target.value);
         }}></input> <br />
 
-        <button 
-        className="bg-red-600 text-white p-2 m-2 rounded-md"
+       <div> <button 
+        className="bg-red-600 text-white p-2 m-2 ml-14 rounded-md"
         onClick={() => {
             fetch("http://localhost:3001/todo", {
                 method: "POST",
@@ -35,6 +35,6 @@ export function CreateTodo(props) {
                     const json = await res.json();
                     alert("Todo added");
                 })
-        }}>Add a todo</button>
+        }}>Add a todo</button></div>
     </div>
 }
