@@ -13,17 +13,16 @@ interface Todo {
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]); 
-
   const fetchTodos = async () => {
     try {
-      const response = await fetch("https://todo-backend-lac-one.vercel.app/");
-      const json = await response.json(); 
+      const response = await fetch("https://todo-backend-lac-one.vercel.app/todos");
+      const json = await response.json();
       setTodos(json.todos);
     } catch (error) {
       console.error('Error fetching todos:', error);
     }
   };
-
+  
   const deleteTodo = async (id: string) => {
     try {
       await axios.delete(`https://todo-backend-lac-one.vercel.app/todo/${id}`);
@@ -32,7 +31,7 @@ function App() {
       console.error('Error deleting todo:', error);
     }
   };
-
+  
   return (
     <div className='flex flex-col justify-center items-center h-screen '>
             <div className='flex flex-col items-center bg-blue-500 p-6 rounded-lg'>
