@@ -21,7 +21,7 @@ export function CreateTodo(props) {
        <div> <button 
         className="bg-red-600 text-white p-2 m-2 ml-14 rounded-md"
         onClick={() => {
-            fetch("http://localhost:3001/todo", {
+            fetch("https://todo-backend-lac-one.vercel.app/todo", {
                 method: "POST",
                 body: JSON.stringify({
                     title: title,
