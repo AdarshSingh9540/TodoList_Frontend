@@ -65,7 +65,7 @@ function App() {
 
   useEffect(() => {
     fetchTodos();
-  }, []);
+  }, [todos]);
 
   return (
     <div className='flex flex-col md:flex md:flex-row min-h-screen bg-black justify-evenly'>
