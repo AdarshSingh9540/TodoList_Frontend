@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 export function CreateTodo(props) {
-
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
@@ -26,10 +25,10 @@ export function CreateTodo(props) {
     };
 
     return (
-        <div>
+        <div className="w-full mr-36 p-12">
             <input 
                 id="title" 
-                className="m-2 p-2 border rounded-md" 
+                className="w-full m-2 p-2 border rounded-md" 
                 type="text" 
                 placeholder="title" 
                 onChange={(e) => setTitle(e.target.value)} 
@@ -37,7 +36,7 @@ export function CreateTodo(props) {
         
             <input 
                 id="desc" 
-                className="m-2 p-2 border rounded-md" 
+                className="w-full m-2 p-2 border rounded-md" 
                 type="text" 
                 placeholder="description" 
                 onChange={(e) => setDescription(e.target.value)} 

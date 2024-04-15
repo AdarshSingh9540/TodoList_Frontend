@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import { CreateTodo } from './components/createTodo';
-import { Todos } from './components/Todos';
-import { ShoWTodos } from './components/ShowTodos';
 import axios from 'axios';
 
 interface Todo {
@@ -33,23 +31,56 @@ function App() {
     }
   };
 
+  // const updateTodo = async (id: string, updatedFields: Partial<Todo>) => {
+  //   try {
+  //     await axios.put(`https://todo-backend-jade-iota.vercel.app/todo/${id}`, updatedFields);
+  //     fetchTodos(); 
+  //   } catch (error) {
+  //     console.error('Error updating todo:', error);
+  //   }
+  // };
+  
+  const addTodo = async (newTodo: Todo) => {
+    try {
+      await fetch("https://todo-backend-jade-iota.vercel.app/todo", {
+        method: "POST",
+        body: JSON.stringify(newTodo),
+        headers: {
+          "Content-type": "application/json"
+        }
+      });
+     
+      fetchTodos(); 
+    } catch (error) {
+      console.error('Error adding todo:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTodos();
+  }, [todos]);
+
   return (
-    <div className='flex flex-col justify-center items-center h-screen '>
-            <div className='flex flex-col items-center bg-blue-500 p-6 rounded-lg'>
-        <h1 className='text-white font-bold text-xl'>Todo List</h1>
-        <CreateTodo /> 
-        <div>
-          {todos.map((todo: Todo) => (
-            <div key={todo._id}>
-              <ShoWTodos
-                title={todo.title}
-                description={todo.description}
-              />
-              <button onClick={() => deleteTodo(todo._id)} className='bg-blue-600 text-white'>Delete</button>
+    <div className='flex flex-row min-h-screen bg-black justify-evenly'>
+      <div className='flex flex-col p-6 rounded-lg'>
+        {/* <h1 className='text-white font-bold text-2xl'>Todo List</h1> */}
+        <CreateTodo addTodo={addTodo} /> 
+      </div>
+
+      <div className="mt-4">
+        <h2 className='text-white font-bold text-xl m-4'>Your Todo List</h2>
+        {todos.map((todo: Todo, index: number) => (
+          <div key={todo._id} className="bg-white shadow-md rounded-lg p-4 mb-4 flex justify-between items-center">
+            <div>
+              <h2 className="text-lg font-semibold">{`${index + 1}. ${todo.title}`}</h2>
+              <p className="text-gray-600">{todo.description}</p>
             </div>
-          ))}
-          <button onClick={fetchTodos} className='bg-green-500 p-2 hover:bg-green-600 text-white rounded-md font-semibold'>Show Todo</button>
-        </div>
+            <div>
+              {/* <button onClick={() => updateTodo(todo._id, { title: "Updated Title", description: "Updated Description" })} className='bg-yellow-400 hover:bg-yellow-600 text-white rounded-md px-4 py-2 mx-2'>Update</button> */}
+              <button onClick={() => deleteTodo(todo._id)} className='bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md ml-2'>Delete</button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
