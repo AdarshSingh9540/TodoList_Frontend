@@ -73,6 +73,10 @@ const addTodo = async (newTodo: Todo) => {
   }, [todos]);
 
   return (
+   <>
+   <div className='bg-red-700'>
+    <h1 className='text-white p-4 text-3xl font-serif font-bold flex items-center justify-center'>Add Task</h1>
+   </div>
     <div className='flex flex-col md:flex md:flex-row min-h-screen bg-black justify-evenly'>
       <div className='flex flex-col p-6 rounded-lg'>
         <CreateTodo addTodo={addTodo} />
@@ -98,6 +102,7 @@ const addTodo = async (newTodo: Todo) => {
         ))}
       </div>
     </div>
+   </>
   );
 }
 
