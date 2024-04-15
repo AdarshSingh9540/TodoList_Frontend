@@ -7,7 +7,7 @@ interface Todo {
   _id: string;
   title: string;
   description: string;
-  completed: boolean; // New property to track completion status
+  completed: boolean; 
 }
 
 function App() {
@@ -36,32 +36,37 @@ function App() {
     try {
       const updatedTodos = todos.map(todo => {
         if (todo._id === id) {
-          return { ...todo, completed: !todo.completed };
+          const updatedTodo = { ...todo, completed: !todo.completed };
+          setTodos(prevTodos => [...prevTodos.filter(t => t._id !== id), updatedTodo]);
+          return updatedTodo;
         }
         return todo;
       });
-      setTodos(updatedTodos);
-      await axios.put(`https://todo-backend-jade-iota.vercel.app/todo/${id}`, { completed: !updatedTodos.find(todo => todo._id === id)?.completed });
+      await axios.put(`https://todo-backend-jade-iota.vercel.app/todo/${id}`, { completed: !todos.find(todo => todo._id === id)?.completed });
     } catch (error) {
-      console.error('Error updating todo:', error);
+      console.error('Error toggling todo completion:', error);
     }
   };
+  
 
-  const addTodo = async (newTodo: Todo) => {
-    try {
-      await fetch("https://todo-backend-jade-iota.vercel.app/todo", {
-        method: "POST",
-        body: JSON.stringify(newTodo),
-        headers: {
-          "Content-type": "application/json"
-        }
-      });
+const addTodo = async (newTodo: Todo) => {
+  try {
+    console.log('Adding todo:', newTodo);
+    await fetch("https://todo-backend-jade-iota.vercel.app/todo", {
+      method: "POST",
+      body: JSON.stringify(newTodo),
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+    console.log('Todo added successfully');
+    await fetchTodos(); 
+  } catch (error) {
+    console.error('Error adding todo:', error);
+  }
+};
 
-      fetchTodos();
-    } catch (error) {
-      console.error('Error adding todo:', error);
-    }
-  };
+
 
   useEffect(() => {
     fetchTodos();
