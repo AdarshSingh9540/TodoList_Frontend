@@ -16,7 +16,7 @@ function App() {
 
   const fetchTodos = async () => {
     try {
-      const response = await fetch("http://localhost:3001/todos");
+      const response = await fetch("https://todo-backend-livid.vercel.app/todos");
       const json = await response.json(); 
       setTodos(json.todos);
     } catch (error) {
@@ -26,7 +26,7 @@ function App() {
 
   const deleteTodo = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:3001/todo/${id}`);
+      await axios.delete(`https://todo-backend-livid.vercel.app/todo/${id}`);
       fetchTodos();
     } catch (error) {
       console.error('Error deleting todo:', error);

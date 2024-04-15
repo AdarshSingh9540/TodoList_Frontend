@@ -6,7 +6,7 @@ export function CreateTodo(props) {
     const [description, setDescription] = useState("");
 
     const addTodo = () => {
-        fetch("http://localhost:3001/todo", {
+        fetch("https://todo-backend-livid.vercel.app/todo", {
             method: "POST",
             body: JSON.stringify({
                 title: title,
