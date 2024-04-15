@@ -7,15 +7,16 @@ interface Todo {
   _id: string;
   title: string;
   description: string;
+  completed: boolean; // New property to track completion status
 }
 
 function App() {
-  const [todos, setTodos] = useState<Todo[]>([]); 
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   const fetchTodos = async () => {
     try {
       const response = await fetch("https://todo-backend-jade-iota.vercel.app/todos");
-      const json = await response.json(); 
+      const json = await response.json();
       setTodos(json.todos);
     } catch (error) {
       console.error('Error fetching todos:', error);
@@ -31,15 +32,21 @@ function App() {
     }
   };
 
-  // const updateTodo = async (id: string, updatedFields: Partial<Todo>) => {
-  //   try {
-  //     await axios.put(`https://todo-backend-jade-iota.vercel.app/todo/${id}`, updatedFields);
-  //     fetchTodos(); 
-  //   } catch (error) {
-  //     console.error('Error updating todo:', error);
-  //   }
-  // };
-  
+  const toggleCompletion = async (id: string) => {
+    try {
+      const updatedTodos = todos.map(todo => {
+        if (todo._id === id) {
+          return { ...todo, completed: !todo.completed };
+        }
+        return todo;
+      });
+      setTodos(updatedTodos);
+      await axios.put(`https://todo-backend-jade-iota.vercel.app/todo/${id}`, { completed: !updatedTodos.find(todo => todo._id === id)?.completed });
+    } catch (error) {
+      console.error('Error updating todo:', error);
+    }
+  };
+
   const addTodo = async (newTodo: Todo) => {
     try {
       await fetch("https://todo-backend-jade-iota.vercel.app/todo", {
@@ -49,8 +56,8 @@ function App() {
           "Content-type": "application/json"
         }
       });
-     
-      fetchTodos(); 
+
+      fetchTodos();
     } catch (error) {
       console.error('Error adding todo:', error);
     }
@@ -58,25 +65,28 @@ function App() {
 
   useEffect(() => {
     fetchTodos();
-  }, [todos]);
+  }, []);
 
   return (
-    <div className='flex flex-row min-h-screen bg-black justify-evenly'>
+    <div className='flex flex-col md:flex md:flex-row min-h-screen bg-black justify-evenly'>
       <div className='flex flex-col p-6 rounded-lg'>
-        {/* <h1 className='text-white font-bold text-2xl'>Todo List</h1> */}
-        <CreateTodo addTodo={addTodo} /> 
+        <CreateTodo addTodo={addTodo} />
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 ">
         <h2 className='text-white font-bold text-xl m-4'>Your Todo List</h2>
         {todos.map((todo: Todo, index: number) => (
-          <div key={todo._id} className="bg-white shadow-md rounded-lg p-4 mb-4 flex justify-between items-center">
+          <div key={todo._id} className="bg-white shadow-md rounded-lg p-4 mb-4 flex flex-col md:flex md:flex-row justify-between ">
             <div>
               <h2 className="text-lg font-semibold">{`${index + 1}. ${todo.title}`}</h2>
               <p className="text-gray-600">{todo.description}</p>
             </div>
-            <div>
-              {/* <button onClick={() => updateTodo(todo._id, { title: "Updated Title", description: "Updated Description" })} className='bg-yellow-400 hover:bg-yellow-600 text-white rounded-md px-4 py-2 mx-2'>Update</button> */}
+            <div className='mt-2 md:mt-0 flex flex-row md:justify-between items-center'>
+              {todo.completed ? (
+                <span className='text-green-500 font-bold'><img src="https://cdn1.iconfinder.com/data/icons/warnings-and-dangers/400/Warning-02-512.png" className='w-6' alt="" /></span>
+              ) : (
+                <button onClick={() => toggleCompletion(todo._id)} className='bg-yellow-400 hover:bg-yellow-600 text-white rounded-md px-4 py-2 mx-2'>Mark as completed</button>
+              )}
               <button onClick={() => deleteTodo(todo._id)} className='bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md ml-2'>Delete</button>
             </div>
           </div>
