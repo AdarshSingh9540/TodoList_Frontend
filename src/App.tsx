@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import { CreateTodo } from './components/createTodo';
 import axios from 'axios';
+import {SignUp} from './components/SignUp';
 
 interface Todo {
   _id: string;
@@ -102,6 +103,7 @@ const addTodo = async (newTodo: Todo) => {
         ))}
       </div>
     </div>
+    <SignUp/>
    </>
   );
 }
