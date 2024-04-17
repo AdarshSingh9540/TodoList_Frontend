@@ -103,7 +103,7 @@ const addTodo = async (newTodo: Todo) => {
         ))}
       </div>
     </div>
-    <SignUp/>
+    {/* <SignUp/> */}
    </>
   );
 }
