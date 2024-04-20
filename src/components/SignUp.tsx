@@ -23,7 +23,7 @@ const SignUp: React.FC = () => {
     console.log("Form submitted");
 
     try {
-      const response = await fetch("http://localhost:3001/user/signup", {
+      const response = await fetch("https://todo-backend-jade-iota.vercel.app/user/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
