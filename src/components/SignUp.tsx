@@ -33,7 +33,7 @@ const SignUp: React.FC = () => {
 
       if (response.ok) {
         console.log("User signed up successfully");
-        // Redirect to the dashboard page upon successful signup
+      
         navigate("/dashboard");
       } else {
         console.error("Failed to sign up:", await response.text());
@@ -52,7 +52,7 @@ const SignUp: React.FC = () => {
 
   return (
 
-    <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black items-center  justify-center flex flex-col mt-24  bg-slate-300">
+    <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input  dark:bg-black items-center  justify-center flex flex-col mt-24  bg-slate-300">
       <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
         Welcome to TodoApp
       </h2>
